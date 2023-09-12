@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { addToLS, getStoredCart } from "../../utilities/localstorage";
+import { addToLS, getStoredCart, removeFromLocalStorage } from "../../utilities/localstorage";
 import Bottle from "../Bottle/Bottle";
 import Cart from "../Cart/Cart";
 import './Bottles.css';
@@ -38,12 +38,23 @@ const Bottles = () => {
         const newCart = [...cart, bottle];
         setCart(newCart);
         addToLS(bottle.id);
+    }
+    
+
+    const handleRemoveFromCart = id => {
+
+        //Two step for remove item: 1. visually remove from cart.  2. remove from local storage.
+        const remainingCart = cart.filter(bottle => bottle.id !== id);
+        setCart(remainingCart);
+        removeFromLocalStorage(id);
 }
+
+
 
     return (
         <div>
             <h2>Bottles Here: {bottles.length}</h2>
-            <Cart></Cart>
+            <Cart cart={cart} handleRemoveFromCart={handleRemoveFromCart}></Cart>
             <div className="bottle-container">
             {
         bottles.map(bottle => <Bottle key={bottle.id} bottle={bottle} handleAddToCart={handleAddToCart}></Bottle>)

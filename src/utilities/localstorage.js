@@ -23,4 +23,12 @@ const addToLS = id => {
     saveCartToLS(cart); //function ke call kore dile 12 no line e jeye string e convert korar pore 13 no. line e save kore debe.
 }
 
-export {addToLS, getStoredCart}
+
+
+const removeFromLocalStorage = id => {
+    const cart = getStoredCart();
+    const remaining = cart.filter(idx => idx !== id); //removing every id
+    saveCartToLS(remaining);
+}
+
+export {addToLS, getStoredCart, removeFromLocalStorage}
